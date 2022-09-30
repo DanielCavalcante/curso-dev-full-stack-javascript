@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model usuarios {
+  id             Int         @id @default(autoincrement())
+  nomeCompleto   String      @map("nome_completo") @db.VarChar(150)
+  email          String?     @unique(map: "email") @db.VarChar(60)
+  senha          String?     @db.VarChar(32)
+  telefone       String?     @db.VarChar(16)
+  cpf            String?     @unique(map: "cpf") @db.VarChar(11)
+  dataNascimento DateTime?   @map("data_nascimento") @db.Date
+  enderecos      enderecos[]
+}
+
+model enderecos {
+  id          Int      @id @default(autoincrement())
+  logradouro  String   @db.VarChar(100)
+  cep         String?  @db.VarChar(9)
+  numero      Int
+  bairro      String?  @db.VarChar(100)
+  complemento String?  @db.VarChar(255)
+  cidades     String?  @db.VarChar(255)
+  estado      String?  @db.VarChar(50)
+  usuario     usuarios @relation(fields: [usuarioId], references: [id])
+  usuarioId   Int      @map("usuario_id")
+}
