@@ -20,6 +20,11 @@ app.get('', (req, res) => {
     res.send('Hello, Xuxinha')
 })
 
+app.get('/produtos/:id', async (req, res) => {
+    const produto = await Produto.findOne({ _id: req.params.id })
+    res.send(produto)
+})
+
 app.post('/produtos', async (req, res) => {
     const produto = new Produto(req.body)
     const retorno = await produto.save()
@@ -38,5 +43,5 @@ app.put('/produtos/:id', async (req, res) => {
 })
 
 app.listen(PORT, () => {
-    console.log('Serviço está executando perfeitamente.')
+    console.log(`Serviço está executando perfeitamente na porta: ${PORT}`)
 })

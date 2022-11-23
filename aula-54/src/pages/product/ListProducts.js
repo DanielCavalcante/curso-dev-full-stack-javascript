@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
 
 const ListProducts = () => {
 
@@ -12,7 +13,6 @@ const ListProducts = () => {
     const recuperarProdutos = async () => {
         const resposta = await axios.get('http://localhost:3001/produtos')
         setProdutos(resposta.data)
-        console.log(resposta.data)
     }
 
     const preencheTabela = () => {
@@ -22,26 +22,39 @@ const ListProducts = () => {
                 <td>{produto.titulo}</td>
                 <td>{produto.descricao}</td>
                 <td>{produto.preco}</td>
+                <td>
+                    <Link to={`/products/edit/${produto._id}`}>
+                        <button>Editar</button>
+                    </Link>
+                </td>
             </tr>
           ))
     }
 
     return (
         <div>
-            <h1>ListProducts</h1>
-            <table>
+            <h1>Produtos</h1>
+            <div>
+                <Link to="/products/create">
+                    <button>
+                        Cadastrar
+                    </button>
+                </Link>
+            </div>
+            {produtos.length > 0 ? <table>
                 <thead>
                     <tr>
                         <td>Código</td>
                         <td>Nome do produto</td>
                         <td>Descrição</td>
                         <td>Preço</td>
+                        <td></td>
                     </tr>
                 </thead>
                 <tbody>
-                    {produtos.length > 0 && preencheTabela()}
+                    {preencheTabela()}
                 </tbody>
-            </table>
+            </table> : "Carregando produtos..."}
             
         </div>
     )
