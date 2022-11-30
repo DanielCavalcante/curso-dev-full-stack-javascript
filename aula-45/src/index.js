@@ -42,6 +42,12 @@ app.put('/produtos/:id', async (req, res) => {
     res.send(retorno)
 })
 
+app.delete('/produtos/:id', async (req, res) => {
+    const _id = req.params.id
+    const retorno = await Produto.deleteOne({ _id })
+    res.send(retorno)
+})
+
 app.listen(PORT, () => {
     console.log(`Serviço está executando perfeitamente na porta: ${PORT}`)
 })

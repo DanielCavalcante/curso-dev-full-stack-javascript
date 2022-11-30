@@ -15,6 +15,11 @@ const ListProducts = () => {
         setProdutos(resposta.data)
     }
 
+    const deletarProduto = async (id) => {
+        const resposta = await axios.delete(`http://localhost:3001/produtos/${id}`)
+        setProdutos(resposta.data)
+    }
+
     const preencheTabela = () => {
         return produtos.map((produto) => (
             <tr>
@@ -26,6 +31,7 @@ const ListProducts = () => {
                     <Link to={`/products/edit/${produto._id}`} produto={produto}>
                         <button>Editar</button>
                     </Link>
+                    <button onClick={() => deletarProduto(produto._id)}>Excluir</button>
                 </td>
             </tr>
           ))
